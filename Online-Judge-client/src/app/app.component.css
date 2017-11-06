@@ -1,0 +1,44 @@
+h1 {
+  color: #999;
+  margin-bottom: 15px;
+}
+
+
+h2 {
+  font-size: 2em;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+
+ol.breadcrumb a{
+  text-decoration:none;
+}
+
+
+
+ol.breadcrumb a:visited, a:link {
+  color: #607D8B;
+}
+
+
+ol.breadcrumb a:hover {
+  color: #039be5;
+}
+
+
+nav a.active {
+  color: #039be5;
+}
+
+
+.footer {
+    text-align: left;
+    padding: 7px 28px;
+    background: #263238;
+    color: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}

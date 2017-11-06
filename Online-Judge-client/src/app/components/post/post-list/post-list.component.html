@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="post-list-container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="post-item-container" *ngFor="let post of posts">
+                    <h4>
+                        <p>{{post.title}}</p>
+
+                    </h4>
+                    <p class="{{post.isfamous | boolean }}">
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;{{post.likedTimes}} &nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="fa fa-comment" aria-hidden="true"></i>&nbsp;{{post.commentTimes}} &nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;{{post.readTimes}} &nbsp;&nbsp;&nbsp;&nbsp;{{post.userName }} &nbsp;&nbsp;&nbsp;&nbsp;{{post.postTime}}
+                    </p>
+                </div>
+             <!--    <pagination [totalItems]="totalItems" [maxSize]="maxSize" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" firstText="{{'First'}}" lastText="{{'Last'}}" previousText="{{'Previous'}}" nextText="{{'Next'}}" [boundaryLinks]="true" [rotate]="false" (pageChanged)="pageChanged($event)" class="pagination-sm"></pagination> -->
+            </div>
+        </div>
+    </div>
+</div>

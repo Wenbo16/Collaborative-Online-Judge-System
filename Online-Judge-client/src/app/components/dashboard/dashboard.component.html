@@ -1,0 +1,25 @@
+<ol class="breadcrumb">
+    <li role="presentation" class="active"><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+    <li role="presentation"><a routerLink="/problems" routerLinkActive="active">Problems</a></li>
+</ol>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <h3>Top Algorithm Problems</h3>
+            <div class="grid grid-pad">
+                <a *ngFor="let problem of problems" [routerLink]="['/problems', problem.id]" class='col-1-4'>
+                    <div class="module problem">
+                        <h4>{{problem.name}}</h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <app-social-channel></app-social-channel>
+            <app-site-stat></app-site-stat>
+        </div>
+    </div>
+</div>
