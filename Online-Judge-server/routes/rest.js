@@ -14,6 +14,14 @@ router.get('/problems', function (req, res) {
         .then(problems => res.json(problems));
 });
 
+router.get('/top-problems', function (req, res) {
+    problemService.getTopProblems()
+        .then(topProblems => {
+            console.log("topProblems:" + topProblems);
+            res.json(topProblems)
+        });
+});
+
 router.get('/problems/:id', function(req, res) {
     let id = req.params.id;
     // '+' transforms id from string to number

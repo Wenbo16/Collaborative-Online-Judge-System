@@ -54,7 +54,7 @@ module.exports = function(io) {
                     ['change', delta, Date.now()]
                 );
             }
-            forwardEvent(socket.id, 'change', delta);
+            forwardEvent(socket.id, sessionId, 'change', delta);
         });
 
         socket.on('cursorMove', cursor => {
@@ -94,8 +94,10 @@ module.exports = function(io) {
 
                 if (participants.length === 0) {
                     console.log('last participant left, saving to Redis');
-
+                    
+                   
                     let key = sessionPath + sessionId;
+                    console.log('key is: ' + key);
                     let value = JSON.stringify(collaborations[sessionId]['cachedInstructions']);
                     // save the last version of your code
                     

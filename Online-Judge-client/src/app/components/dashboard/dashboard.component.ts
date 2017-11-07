@@ -7,13 +7,14 @@ import { DataService } from '../../services/data.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
 export class DashboardComponent implements OnInit {
-	problems: Problem[] = [];
+	topProblems: Problem[] = [];
 	title = 'Online Judge System!';
 	constructor(@Inject('data') private dataService) { }
 
 	ngOnInit() {
-		this.dataService.getProblems()
-			.subscribe(problems => this.problems = problems.slice(1,5));
+		this.dataService.getTopProblems()
+			.subscribe(topProblems => this.topProblems = topProblems);
 	}
 }

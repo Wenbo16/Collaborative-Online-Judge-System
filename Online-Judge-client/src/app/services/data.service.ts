@@ -19,6 +19,17 @@ export class DataService {
         return this._problemSource.asObservable();
     }
 
+    private _topProblems = new BehaviorSubject<Problem[]>([]);
+    getTopProblems(): Observable<Problem[]> {
+        this.http.get(`api/v1/top-problems`)
+            .toPromise()
+            .then((res: Response) => {
+                this._topProblems.next(res.json())   // 接受更新
+            })
+            .catch(this.handleError)
+        return this._topProblems.asObservable();
+    }
+
 	// getProblems():Observable<Problem[]> {
 	// 	return this.http.get(`api/v1/problems`)
 	// 			   // .toPromise()  // converted the Observable to a Promise

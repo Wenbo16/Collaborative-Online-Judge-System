@@ -12,6 +12,14 @@ function set(key, value) {
     return client.setAsync(key, value);
 }
 
+function zincrby(key, incre, member) {
+    return client.zincrbyAsync(key, incre, member);
+}
+
+function zrevrange(key, start, end) {
+    return client.zrevrangeAsync(key, start, end);
+}
+
 
 function get(key) {
     return client.getAsync(key);
@@ -28,6 +36,8 @@ function quit() {
 
 module.exports = {
     get: get,
+    zincrby: zincrby,
+    zrevrange: zrevrange,
     set: set,
     expire: expire,
     quit: quit,

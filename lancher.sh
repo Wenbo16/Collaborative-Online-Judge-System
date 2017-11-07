@@ -3,10 +3,10 @@
 fuser -k 3000/tcp
 
 service redis_6379 start
-cd ./oj-server
+cd ./Online-Judge-server
 npm install
 nodemon server.js &
-cd ../oj-client
+cd ../Online-Judge-client
 npm install
 ng build --watch &
 

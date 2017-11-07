@@ -1,9 +1,9 @@
 var ProblemModel = require('../models/problemModel');
+var redisClient = require('../modules/redisClient');
+
+var sessionPath = '/oj_server/';
 
 var getProblems = function() {
-    // return new Promise((resolve, reject) => {
-    //     resolve(problems);
-    // });
     return new Promise((resolve, reject) => {
         ProblemModel.find({}, function(err, problems) {
             if (err) {
@@ -15,6 +15,30 @@ var getProblems = function() {
     });
 }
 
+var getTopProblems = function() {
+    return getTopProblemsId()
+        .then((topProblemsId) => {
+            var ProblemIds = topProblemsId.map((ProblemId) => {
+                return new Promise((resolve, reject) => {
+                    ProblemModel.findOne({id: ProblemId}, function(err, problem) {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(problem);
+                        }
+                    });
+                }); 
+            })
+
+            return Promise.all(ProblemIds);
+        })
+      
+}
+
+var getTopProblemsId = function() {
+    return redisClient.zrevrange(sessionPath + 'topProblems', 0, 3);
+}
+
 var getProblem = function(idNumber) {
     return new Promise((resolve, reject) => {
         // resolve(problems.find(problem => problem.id === id ));
@@ -22,6 +46,7 @@ var getProblem = function(idNumber) {
             if (err) {
                 reject(err);
             } else {
+                redisClient.zincrby(sessionPath +'topProblems', 1, idNumber);
                 resolve(problem);
             }
         });
@@ -30,13 +55,6 @@ var getProblem = function(idNumber) {
 
 var addProblem = function(newProblem) {
     return new Promise((resolve, reject) => {
-        // if (problems.find(problem => problem.name === newProblem.name)) {
-        //     reject('problem already exists~');
-        // } else {
-        //     newProblem.id = problems.length + 1;
-        //     problems.push(newProblem);
-        //     resolve(newProblem);
-        // }
         ProblemModel.findOne({name: newProblem.name}, function(err, data) {
             if (data) {
                 reject('Problem already exists');
@@ -68,6 +86,8 @@ var deleteProblem = function(idNumber) {
 
 module.exports = {
     getProblems: getProblems,
+    getTopProblems: getTopProblems,
+    getTopProblemsId: getTopProblemsId,
     getProblem: getProblem,
     addProblem: addProblem,
     deleteProblem: deleteProblem
