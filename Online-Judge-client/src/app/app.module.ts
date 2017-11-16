@@ -61,9 +61,9 @@ import { EditorComponent } from './components/editor/editor.component';
 
 	exports: [BooleanPipe],
 	providers: [
-							{  provide: 'data', useClass: DataService },
-							{  provide: 'auth', useClass: AuthService },
-							{  provide: 'authGuard', useClass: AuthGuardService},
+							{ provide: 'data', useClass: DataService },
+							{ provide: 'auth', useClass: AuthService },
+							{ provide: 'authGuard', useClass: AuthGuardService },
 							{ provide: 'collaboration', useClass: CollaborationService },
 
 							PostListService

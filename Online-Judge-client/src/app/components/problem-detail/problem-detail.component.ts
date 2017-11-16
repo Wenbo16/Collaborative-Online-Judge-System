@@ -11,6 +11,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 export class ProblemDetailComponent implements OnInit {
     problem: Problem;
+    lists: string[] = ['Favorite', 'Todo'];
     constructor(
         @Inject('data') private data,
         private route: ActivatedRoute

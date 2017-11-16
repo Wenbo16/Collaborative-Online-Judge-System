@@ -48,12 +48,15 @@ export class DataService {
                     .catch(this.handleError);
     }
 
-
-    private headers = new Headers({'content-Type': 'application/json'});
+    private headers = new Headers({
+          'content-type': 'application/json'
+    });
 
     addProblem(newProblem: Problem) {
         // newProblem.id = this.problems.length + 1;
         // this.problems.push(newProblem);
+        
+
         return this.http.post('api/v1/problems', newProblem, this.headers)
                         .toPromise()
                         .then((res: Response) => {
@@ -71,6 +74,16 @@ export class DataService {
                     .toPromise()
                     .then(() => null)
                     .catch(this.handleError);
+    }
+
+    buildAndRun(data: any): Promise<Object> {
+        return this.http.post('api/v1/build_and_run', data, this.headers)
+                .toPromise()
+                .then((res: Response) => {
+                    console.log(res);
+                    return res.json();
+                })
+                .catch(this.handleError);
     }
 
 
