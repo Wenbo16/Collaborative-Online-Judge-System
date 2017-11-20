@@ -3,35 +3,17 @@ import os
 import shutil
 import uuid
 from docker.errors import *
+from langs import SOURCE_FILE_NAMES, BINARY_NAMES, BUILD_COMMANDS, EXECUTE_COMMANDS
 
 client = docker.from_env()
 
-IMAGE_NAME = 'wenbofeng/cs503_1702_coj'
+IMAGE_NAME = 'wenbofeng/online-judge'
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 # get tmp dir path
 TEMP_BUILD_DIR = '%s/tmp' % CURRENT_DIR
 
-SOURCE_FILE_NAMES = {
-    "java" : "Example.java",
-    'python' : 'example.py'
-}
-
-BINARY_NAMES = {
-    "java" : "Example",
-    'python' : 'example.py'
-}
-
-BUILD_COMMANDS = {
-    "java" : "javac",
-    "python" : "python"
-}
-
-EXECUTE_COMMANDS = {
-    "java" : "java",
-    "python" : "python"
-}
 
 def load_image():
     try:
@@ -43,6 +25,20 @@ def load_image():
         print 'image not found locally. docker hub is not accessible'
         return
     print 'Image: [%s] loaded' % IMAGE_NAME
+
+
+
+#
+    # @function
+    # @name build_and_run
+    # @description Function that creates a directory with the folder name provided by uuid
+    # and then copies contents of folder named Payload to the created folder, this newly created folder will be mounted
+    # on the Docker Container. A file with the name specified in file_name variable of this class is created and all the
+    # code written in 'code' variable of this class is copied into this file.
+    # Summary: This function produces a folder that contains the source file and 2 scripts, this folder is mounted to our
+    # Docker container when we run it.
+    # @param {code language}
+#
 
 def build_and_run(code, lang):
     result = {'build': None, 'run': None, 'error': None}
@@ -61,6 +57,7 @@ def build_and_run(code, lang):
     with open('%s/%s' % (source_file_host_dir, SOURCE_FILE_NAMES[lang]), 'w') as source_file:
         source_file.write(code)
 
+    # compile code
     try:
         client.containers.run(
             image = IMAGE_NAME,
@@ -76,13 +73,14 @@ def build_and_run(code, lang):
         shutil.rmtree(source_file_host_dir)
         return result
 
+    # run code
     try:
         log = client.containers.run(
             image=IMAGE_NAME,
             command='%s %s' % (EXECUTE_COMMANDS[lang], BINARY_NAMES[lang]),
             volumes={source_file_host_dir: {'bind': source_file_guest_dir, 'mode': 'rw'}},
             working_dir=source_file_guest_dir)
-        print 'Executed!!!'
+        print 'Accepted!!!'
         result['run'] = log
 
     except ContainerError as e:

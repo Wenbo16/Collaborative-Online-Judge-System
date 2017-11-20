@@ -20,10 +20,6 @@ def build_and_run():
     lang = data['lang']
     print 'API go called with code %s in %s' % (code, lang)
 
-    # return jsonify({
-    #     'build': 'OKOKOK',
-    #     'run': 'ahahahahaha'
-    # })
     result = eu.build_and_run(code, lang)
     return jsonify(result)
 
